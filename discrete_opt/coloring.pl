@@ -17,7 +17,7 @@ rows_read(Res, Num_nodes, Num_edges, Filename) :-
     close(Stream).
 
 
-rows_read_inner(N, N, Stream, Acc, Acc).
+rows_read_inner(N, N, Stream, Acc, Acc). % terminal condition
 rows_read_inner(I, Num_edges, Stream, Acc, Res) :-
     read_string(Stream, end_of_line, _, Row),
     split(' ', Row, [], [Tmp_U0, _, Tmp_U1]),
@@ -31,7 +31,7 @@ rows_read_inner(I, Num_edges, Stream, Acc, Res) :-
 pairwise_diff([(L,R)|T], Variables) :-
     % edges are index-0, but variables' range start at 1.
     L_tmp is L +1, R_tmp is R +1,
-    Variables[L_tmp] #\= Variables[R_tmp],
+    Variables[L_tmp] #\= Variables[R_tmp], % Variable[L_tmp] cannot unify with Variable[R_tmp]
     pairwise_diff(T, Variables).
 pairwise_diff([], Variables).
 
@@ -42,7 +42,7 @@ colour(Colours, Filename) :-
 %    length(Variables, Num_nodes), % does not allow subscript, ie. Variable[2] #= 2 would give an instantiation fault
     %% setup constraints
     dim(Colours, [Num_nodes]),
-    Colours #:: 1..Num_nodes,
+    Colours #:: 1..Num_nodes, % all Colours take integer values between 1 and Num_nodes
     pairwise_diff(Res, Colours),
     %% search
     search(
@@ -71,4 +71,4 @@ main(InputFilename, OutputFilename) :-
         write(Stream, ' ')
     ),
     close(Stream),
-    !. % no backtracking after this
+    !. % no backtracking after this, otherwise it will search for more answers

@@ -1,0 +1,20 @@
+; -*- mode: org; -*-
+
+Code and notes for assignments in Discrete Optimization by Pascal Van Hentenryck (Coursera, Jun 2013).
+
+* requirements
+
+If running .py files, python 2 is required.
+
+If running .pl files, a prolog system with constraint logic programming
+modules are required. (Tested on eclipse-clp v6.1 #204).
+
+* running
+
+: make knapsack in_name=ks_4_0
+: make coloring in_name=gc_4_1
+where =in_name= is one of the files found in =data/knapsack/in= or
+=data/coloring/in= respectively.
+
+To check the feasibility of the output, replace each target with
+=knapsack_check= or =sat_coloring=
