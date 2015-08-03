@@ -75,7 +75,18 @@ def branch_bound(n_items, capacity, values, weights):
 
 
 def dyn_prog(n_items, capacity, values, weights):
-    tab = np.zeros( (capacity +1, n_items +1) ) # incl. 0 item, or 0 capacity case
+    # tab = np.zeros( (capacity +1, n_items +1) ) # incl. 0 item, or 0 capacity case
+    import tempfile
+    import os.path as path
+
+    filename = tempfile.NamedTemporaryFile(suffix='knapsack_-_dyn_prog')
+    if capacity < np.power(2,32): # limit is if we had to take everything
+        dtype = np.uint32
+    else:
+        dtype = np.uint64
+
+    n_row, n_col = capacity +1, n_items +1
+    tab = np.memmap( filename, dtype=dtype, mode='w+', shape=(n_row, n_col), order='F') # incl. 0 item, or 0 capacity case
     tab[:,0] = 0
     for j in xrange(1,n_items +1): # item idx
         for k in xrange(0,capacity +1):
@@ -88,7 +99,7 @@ def dyn_prog(n_items, capacity, values, weights):
 
     ## backtrack
     taken = []
-    k,j = tab.shape[0] -1, tab.shape[1] -1
+    k,j = n_row -1, n_col -1
     while True:
         if j == 0:
             break
@@ -183,3 +194,5 @@ if __name__ == '__main__':
         output_vals = read_output(args.output)
         res = feasible(output_vals['taken'], input_vals['capacity'], input_vals['weights'])
         sys.stdout.write( ('1' if res else '0') +'\n')
+    else:
+        raise ValueError('Invalid mode specified: {}'.format(args.mode))

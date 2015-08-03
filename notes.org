@@ -2,3 +2,14 @@
 
 * knapsack
 * coloring
+
+#+BEGIN_EXAMPLE
+1 2 -- 6 5
+ 3      4
+# would give a 4-colour
+
+1 2 -- 4 5
+ 3      6
+# would give a 3-colour
+#+END_EXAMPLE
+index order of nodes matter.

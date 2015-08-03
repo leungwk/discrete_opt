@@ -1,1 +1,1 @@
-Code for assignments in Discrete Optimization by Pascal Van Hentenryck (Coursera, Jun 2013).
+Code and notes for assignments in Discrete Optimization by Pascal Van Hentenryck (Coursera, Jun 2013).
